@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Generate NodeSeek app icons (navy rounded square, white N, blue bar)."""
+"""Generate NodeSeek app icons (navy rounded square, white N, blue bar)
+and write AppIcon.appiconset/Contents.json with explicit filenames so
+actool actually compiles them into the app icon."""
 import os
+import json
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "NodeSeek", "Assets.xcassets", "AppIcon.appiconset")
@@ -48,4 +51,39 @@ for s in SIZES:
     name = "icon-1024.png" if s == 1024 else f"icon-{s}.png"
     img.save(os.path.join(OUT, name))
     print("wrote", name)
+
+# Write Contents.json with explicit filenames (actool ignores unreferenced files).
+def entry(idiom, size, scale, px):
+    return {"idiom": idiom, "size": size, "scale": scale,
+            "filename": "icon-1024.png" if px == 1024 else f"icon-{px}.png"}
+
+images = [
+    entry("iphone", "20x20", "2x", 40),
+    entry("iphone", "20x20", "3x", 60),
+    entry("iphone", "29x29", "2x", 58),
+    entry("iphone", "29x29", "3x", 87),
+    entry("iphone", "40x40", "2x", 80),
+    entry("iphone", "40x40", "3x", 120),
+    entry("iphone", "60x60", "2x", 120),
+    entry("iphone", "60x60", "3x", 180),
+    entry("ipad", "20x20", "1x", 20),
+    entry("ipad", "20x20", "2x", 40),
+    entry("ipad", "29x29", "1x", 29),
+    entry("ipad", "29x29", "2x", 58),
+    entry("ipad", "40x40", "1x", 40),
+    entry("ipad", "40x40", "2x", 80),
+    entry("ipad", "76x76", "2x", 152),
+    entry("ipad", "83.5x83.5", "2x", 167),
+    entry("ios-marketing", "1024x1024", "1x", 1024),
+]
+# 152 and 167 are not in SIZES; draw them too so every entry has a file.
+for px in (152, 167):
+    img = draw_icon(px)
+    img.save(os.path.join(OUT, f"icon-{px}.png"))
+    print("wrote", f"icon-{px}.png")
+
+contents = {"images": images, "info": {"author": "xcode", "version": 1}}
+with open(os.path.join(OUT, "Contents.json"), "w", encoding="utf-8") as f:
+    json.dump(contents, f, indent=2)
+print("wrote Contents.json")
 print("done")
