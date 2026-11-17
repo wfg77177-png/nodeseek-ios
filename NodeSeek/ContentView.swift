@@ -362,6 +362,7 @@ private let nsJS = """
     }).catch(function(){ showToast('预览加载失败'); });
   }
   document.addEventListener('touchstart', function(e){
+    return; // long-press preview disabled: it was swallowing taps
     if(isPostPage()) return;
     var a=e.target.closest ? e.target.closest('a[href*="/post-"]') : null;
     if(!a) return;
