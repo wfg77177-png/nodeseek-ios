@@ -2,7 +2,7 @@ name: NodeSeek
 options:
   bundleIdPrefix: cc.loc.8799005
   deploymentTarget:
-    iOS: "15.0"
+    iOS: "16.0"
   xcodeVersion: "16.0"
 targets:
   NodeSeek:
