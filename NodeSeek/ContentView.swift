@@ -25,7 +25,7 @@ private let nsJS = """
     if (read('signDate','') === today) return;
     fetch('/api/attendance?random=true', {method:'POST', credentials:'include',
       headers:{'Content-Type':'application/json'}, body:'{}'})
-      .then(function(r){ store('signDate', today); return r.text(); })
+      .then(function(r){ if(r.ok){ store('signDate', today); } return r.text(); })
       .then(function(t){
         try{ var j=JSON.parse(t); if(j && j.message){ showToast(j.message); } }catch(e){}
       })
