@@ -1,0 +1,21 @@
+name: NodeSeek
+options:
+  bundleIdPrefix: cc.loc.8799005
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "16.0"
+targets:
+  NodeSeek:
+    type: application
+    platform: iOS
+    sources:
+      - path: NodeSeek
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cc.loc.8799005.nodeseek
+        PRODUCT_NAME: NodeSeek
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_VERSION: "5.0"
+        INFOPLIST_FILE: NodeSeek/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
